@@ -101,23 +101,28 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#linking-script-outputs-to-ramses-scenes">Linking script outputs to <code class="docutils literal notranslate"><span class="pre">ramses</span></code> scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#additional-lua-syntax-specifics">Additional Lua syntax specifics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#serialization-deserialization">Serialization/Deserialization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#logging">Logging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#security-and-memory-safety">Security and memory safety</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#list-of-all-examples">List of all examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#class-index">Class Index</a></li>
 </ul>
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dev.html">Understand RAMSES Logic architecture and design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html#developer-guidelines">Developer guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#contributing">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#pull-requests">Pull requests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#commit-guidelines">Commit guidelines</a></li>
@@ -215,14 +220,18 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#linking-script-outputs-to-ramses-scenes">Linking script outputs to <code class="docutils literal notranslate"><span class="pre">ramses</span></code> scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#additional-lua-syntax-specifics">Additional Lua syntax specifics</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#the-global-in-and-out-objects">The global IN and OUT objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#object-lifecycle-when-saving-and-loading-to-files">Object lifecycle when saving and loading to files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#saving-and-loading-together-with-a-ramses-scene">Saving and loading together with a Ramses scene</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#serialization-deserialization">Serialization/Deserialization</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html#additional-lua-syntax-specifics">Additional Lua syntax specifics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-global-in-and-out-objects">The global IN and OUT objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#things-you-should-never-do">Things you should never do</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#things-you-should-avoid-if-possible">Things you should avoid if possible</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#special-case-using-out-object-in-other-functions">Special case: using OUT object in other functions</a></li>
@@ -234,6 +243,16 @@
 <li class="toctree-l2"><a class="reference internal" href="api.html#additional-security-considerations">Additional security considerations</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#list-of-all-examples">List of all examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/00_minimal.html">Minimal example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/01_properties_simple.html">Simple example with (primitive) properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/02_properties_complex.html">Simple example with (complex) properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/03_errors_compile_time.html">Handling compilation errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/04_errors_runtime.html">Handling runtime errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/05_ramses_scene.html">Example with Ramses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/06_serialization.html">Save/load from file example</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#class-index">Class Index</a></li>
 </ul>
 </div>
@@ -241,6 +260,12 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog_ref.html#bugfixes">Bugfixes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog_ref.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog_ref.html#fixes">Fixes</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="changelog_ref.html#initial-features">Initial features</a></li>
 </ul>
@@ -255,6 +280,7 @@
 <li class="toctree-l2"><a class="reference internal" href="dev.html#design-decision-log">Design decision log</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html#developer-guidelines">Developer guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#contributing">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#pull-requests">Pull requests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#commit-guidelines">Commit guidelines</a><ul>

@@ -102,23 +102,28 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#linking-script-outputs-to-ramses-scenes">Linking script outputs to <code class="docutils literal notranslate"><span class="pre">ramses</span></code> scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#additional-lua-syntax-specifics">Additional Lua syntax specifics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#serialization-deserialization">Serialization/Deserialization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#logging">Logging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#security-and-memory-safety">Security and memory safety</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#list-of-all-examples">List of all examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#class-index">Class Index</a></li>
 </ul>
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dev.html">Understand RAMSES Logic architecture and design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html#developer-guidelines">Developer guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#contributing">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#pull-requests">Pull requests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#commit-guidelines">Commit guidelines</a></li>
@@ -198,18 +203,6 @@ limitation for more complex applications. <code class="docutils literal notransl
 load and run <code class="docutils literal notranslate"><span class="pre">Lua</span></code> scripts and provides a standard set of tools to let these scripts interact between each other and control
 a sophisticated <code class="docutils literal notranslate"><span class="pre">RAMSES</span></code> scene.</p>
 <p>You can find the full documentation of <code class="docutils literal notranslate"><span class="pre">RAMSES</span> <span class="pre">logic</span></code> <a class="reference external" href="https://genivi.github.io/ramses-logic">here</a>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This is an alpha build yet. It is not fully feature complete yet, as there are still major features being worked on, including:</p>
-<ul class="simple">
-<li><p>Possibility to link inputs and outputs to form an execution network of scripts and bindings</p></li>
-<li><p>Full-fledged RAMSES support</p></li>
-<li><p>Appearance bindings</p></li>
-<li><p>Interfaces</p></li>
-<li><p>Animations</p></li>
-<li><p>Serialization</p></li>
-</ul>
-</div>
 </div>
 <div class="section" id="build">
 <span id="quickstart"></span><h1>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h1>
@@ -231,8 +224,7 @@ the <a class="reference external" href="https://genivi.github.io/ramses-logic/bu
 </div>
 <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>Have a look at the sample code in the <a class="reference external" href="https://github.com/GENIVI/ramses-logic/tree/master/examples">examples directory</a>
-which demonstrates different aspects and features of the <code class="docutils literal notranslate"><span class="pre">RAMSES</span> <span class="pre">logic</span></code> library in a minimalistic fashion.</p>
+<p>Prefer to learn by example? Have a look at our <a class="reference external" href="https://genivi.github.io/ramses-logic/api.html#list-of-all-examples">self-contained example snippets</a>.</p>
 </div>
 
 

@@ -101,18 +101,22 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#linking-script-outputs-to-ramses-scenes">Linking script outputs to <code class="docutils literal notranslate"><span class="pre">ramses</span></code> scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#additional-lua-syntax-specifics">Additional Lua syntax specifics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#serialization-deserialization">Serialization/Deserialization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#logging">Logging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#security-and-memory-safety">Security and memory safety</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#list-of-all-examples">List of all examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#class-index">Class Index</a></li>
 </ul>
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers</span></p>
@@ -122,6 +126,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#design-decision-log">Design decision log</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#developer-guidelines">Developer guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#contributing">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#pull-requests">Pull requests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#commit-guidelines">Commit guidelines</a><ul>
@@ -381,6 +386,36 @@ decided that scripting support would provide a common ground for implementing su
 </dl>
 </li>
 </ul>
+</div>
+</div>
+<div class="section" id="developer-guidelines">
+<h1>Developer guidelines<a class="headerlink" href="#developer-guidelines" title="Permalink to this headline">¶</a></h1>
+<p>Apart from the general project architecture and design decisions outlined above, we try to be as open to change as
+possible. Want to try out something new? Feel free to experiment with the codebase and propose a change
+(see <a class="reference internal" href="#contributing"><span class="std std-ref">contributing</span></a>).</p>
+<p>Here are some additional things to consider when modifying the project:</p>
+<ul>
+<li><p>Execute existing tests before submitting PRs and write new tests for new functionality</p></li>
+<li><p>Have an idea or feature request? Feel free to create a Github issue</p></li>
+<li><p>Treat documentation at least as good as the code itself</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added a new feature? Mention it in the CHANGELOG!</p></li>
+<li><p>Modified the public API? Adapt the doxygen documentation!</p></li>
+<li><p>Changed the serialization format? Re-run the FlatbufGen target in CMake</p></li>
+<li><p>Made an API, ABI or any other incompatible change? Don’t forget to bump the semantic version of the project
+in the main CMakeLists.txt file</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When changing the serialization schemes of Ramses Logic, the generated flatbuffers header files have to be
+re-generated and committed as part of the change. This may seem counter-intuitive for code generation, but not
+all build system support dynamically generated code. Hence, we keep the generated header files checked in with
+the rest of the code, and re-generate them when needed. To re-create those files, execute the <code class="docutils literal notranslate"><span class="pre">FlatbufGen</span></code> target
+on your build system.</p>
 </div>
 </div>
 <div class="section" id="contributing">

@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Understand RAMSES Logic architecture and design" href="dev.html" />
-    <link rel="prev" title="Overview" href="api.html" /> 
+    <link rel="prev" title="Save/load from file example" href="examples/06_serialization.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -102,18 +102,27 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#linking-script-outputs-to-ramses-scenes">Linking script outputs to <code class="docutils literal notranslate"><span class="pre">ramses</span></code> scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#additional-lua-syntax-specifics">Additional Lua syntax specifics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#serialization-deserialization">Serialization/Deserialization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#logging">Logging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#security-and-memory-safety">Security and memory safety</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#list-of-all-examples">List of all examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#class-index">Class Index</a></li>
 </ul>
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#v0-2-0">v0.2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bugfixes">Bugfixes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fixes">Fixes</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="#v0-1-0">v0.1.0</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#initial-features">Initial features</a></li>
 </ul>
@@ -122,6 +131,7 @@
 <p class="caption"><span class="caption-text">Developers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dev.html">Understand RAMSES Logic architecture and design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html#developer-guidelines">Developer guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#contributing">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#pull-requests">Pull requests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html#commit-guidelines">Commit guidelines</a></li>
@@ -196,6 +206,67 @@
   <div class="section" id="master">
 <h1>master<a class="headerlink" href="#master" title="Permalink to this headline">¶</a></h1>
 </div>
+<div class="section" id="v0-2-0">
+<h1>v0.2.0<a class="headerlink" href="#v0-2-0" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bugfixes">
+<h2>Bugfixes<a class="headerlink" href="#bugfixes" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Fixed a bug with recent sol and Visual Studio 16.7.4</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Only a workaround, until properly fixed in sol + MSVS</p></li>
+<li><p>Results in minor mismatch in reported errors when using VECx types</p></li>
+<li><p>Errors are still readable and have a stack trace, just the message is different</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Improved class hierarchy:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All binding-classes inherit from RamsesBinding</p></li>
+<li><p>Scripts and RamsesBinding inherit from LogicNode</p></li>
+<li><p>Can call destroy(LogicNode&amp;) for all object types now</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>RamsesAppearanceBinding class for manipulation of RAMSES appearances.</p></li>
+<li><p>Linking of outputs of LogicNodes to inputs of other LogicNodes, with some limitations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>No checks for cycles yet</p></li>
+<li><p>Must link struct properties one-by-one</p></li>
+<li><p>Some error checks missing (see API docs of link())</p></li>
+<li><p>LogicNode has “isLinked” function for checking if a LogicNode is linked</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Iterators and collections to iterate over objects of LogicEngine class</p></li>
+<li><p>Saving and loading of LogicEngine to and from files</p></li>
+<li><p>Upgrade to Ramses v.26.0.4 (from v25.0.6)</p></li>
+<li><p>Added API to obtain version of ramses logic</p></li>
+<li><p>Added CMake option to disable installation of Ramses Logic</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Does not affect ramses installation (Ramses has no such option yet)</p></li>
+<li><p>Sol doesn’t support disabling of installation - Sol headers are still installed</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Improved documentation</p></li>
+</ul>
+</div>
+<div class="section" id="fixes">
+<h2>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Remove flatbuffers targets from build</p></li>
+</ul>
+</div>
+</div>
 <div class="section" id="v0-1-0">
 <h1>v0.1.0<a class="headerlink" href="#v0-1-0" title="Permalink to this headline">¶</a></h1>
 <p>First version published on Github</p>
@@ -242,7 +313,7 @@
         <a href="dev.html" class="btn btn-neutral float-right" title="Understand RAMSES Logic architecture and design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples/06_serialization.html" class="btn btn-neutral float-left" title="Save/load from file example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
