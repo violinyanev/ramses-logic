@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cloning &mdash; ramses_logic 0.0.1 documentation</title>
+  <title>Cloning &mdash; ramses_logic 0.3.0 documentation</title>
   
 
   
@@ -94,6 +94,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cloning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#build-requirements">Build requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#build-options">Build options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#project-version">Project version</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#building-on-windows">Building on Windows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#building-in-docker-windows-or-linux">Building in Docker (Windows or Linux)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#building-on-linux-natively">Building on Linux natively</a></li>
@@ -102,9 +103,13 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#object-lifecycle">Object lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#indexing-inside-and-outside-lua">Indexing inside and outside Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#performance-and-caching">Performance and caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#using-lua-modules">Using Lua modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
@@ -117,6 +122,7 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-3-0">v0.3.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
 </ul>
@@ -252,7 +258,8 @@ additional build dependencies must be present in order to run some of the visual
 </div>
 <div class="section" id="build-options">
 <h1>Build options<a class="headerlink" href="#build-options" title="Permalink to this headline">¶</a></h1>
-<p>Following CMake settings can be optionally enabled/disabled when building:</p>
+<p>A standard CMake build will create the shared library version of <code class="docutils literal notranslate"><span class="pre">Ramses</span> <span class="pre">Logic</span></code> by default. A static build alongside other
+things can be enabled using following CMake options:</p>
 <ul>
 <li><dl class="option-list">
 <dt><kbd><span class="option">-D<var>ramses-logic_RAMSES_TARGET</var></span></kbd></dt>
@@ -283,6 +290,26 @@ custom target is not available at generation time for some reason.</p></li>
 <li><p>options: ON/OFF</p></li>
 <li><p>default: ON</p></li>
 <li><p>treats compiler warnings as errors and aborts the build. Use this option if your compiler generates warnings which are not fixed yet.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="option-list">
+<dt><kbd><span class="option">-D<var>ramses-logic_BUILD_SHARED_LIB</var></span></kbd></dt>
+<dd><ul class="simple">
+<li><p>options: ON/OFF</p></li>
+<li><p>default: ON</p></li>
+<li><p>Enables building of the shared (dynamic) library version of logic engine (we recommend this over the static build)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="option-list">
+<dt><kbd><span class="option">-D<var>ramses-logic_BUILD_STATIC_LIB</var></span></kbd></dt>
+<dd><ul class="simple">
+<li><p>options: ON/OFF</p></li>
+<li><p>default: OFF</p></li>
+<li><p>Enables building of the static library version of logic engine</p></li>
 </ul>
 </dd>
 </dl>
@@ -358,6 +385,12 @@ have to expose any Ramses Logic headers or ship the shared library with your ins
 </dl>
 </li>
 </ul>
+</div>
+<div class="section" id="project-version">
+<h1>Project version<a class="headerlink" href="#project-version" title="Permalink to this headline">¶</a></h1>
+<p>You can check the project version at build time and at runtime. At build time it is available
+as a CMake cache variable named <code class="docutils literal notranslate"><span class="pre">ramses-logic_VERSION</span></code>. At runtime, you can use the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">rlogic::GetRamsesLogicVersion()</span></code> function to get the version as integer or as string.</p>
 </div>
 <div class="section" id="building-on-windows">
 <h1>Building on Windows<a class="headerlink" href="#building-on-windows" title="Permalink to this headline">¶</a></h1>

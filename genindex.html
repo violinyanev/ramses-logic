@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; ramses_logic 0.0.1 documentation</title>
+  <title>Index &mdash; ramses_logic 0.3.0 documentation</title>
   
 
   
@@ -93,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="build.html">Cloning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#build-requirements">Build requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#build-options">Build options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html#project-version">Project version</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-on-windows">Building on Windows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-in-docker-windows-or-linux">Building in Docker (Windows or Linux)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-on-linux-natively">Building on Linux natively</a></li>
@@ -101,9 +102,13 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#object-lifecycle">Object lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#indexing-inside-and-outside-lua">Indexing inside and outside Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#performance-and-caching">Performance and caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#using-lua-modules">Using Lua modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
@@ -116,6 +121,7 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-3-0">v0.3.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
 </ul>
@@ -248,6 +254,8 @@
 </li>
       <li><a href="api.html#_CPPv4N6rlogic13EPropertyTypeE">rlogic::EPropertyType (C++ enum)</a>
 </li>
+      <li><a href="api.html#_CPPv4N6rlogic13EPropertyType5ArrayE">rlogic::EPropertyType::Array (C++ enumerator)</a>
+</li>
       <li><a href="api.html#_CPPv4N6rlogic13EPropertyType4BoolE">rlogic::EPropertyType::Bool (C++ enumerator)</a>
 </li>
       <li><a href="api.html#_CPPv4N6rlogic13EPropertyType5FloatE">rlogic::EPropertyType::Float (C++ enumerator)</a>
@@ -328,7 +336,7 @@
 </li>
       <li><a href="api.html#_CPPv4N6rlogic8Iterator17internal_iteratorE">rlogic::Iterator::internal_iterator (C++ type)</a>
 </li>
-      <li><a href="api.html#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE">rlogic::Iterator::Iterator (C++ function)</a>, <a href="api.html#_CPPv4N6rlogic8Iterator8IteratorE17internal_iterator">[1]</a>, <a href="api.html#_CPPv4N6rlogic8Iterator8IteratorERK8Iterator">[2]</a>, <a href="api.html#_CPPv4N6rlogic8Iterator8IteratorEv">[3]</a>
+      <li><a href="api.html#_CPPv4I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE">rlogic::Iterator::Iterator (C++ function)</a>, <a href="api.html#_CPPv4N6rlogic8Iterator8IteratorE17internal_iterator">[1]</a>, <a href="api.html#_CPPv4N6rlogic8Iterator8IteratorERK8Iterator">[2]</a>, <a href="api.html#_CPPv4N6rlogic8Iterator8IteratorEv">[3]</a>
 </li>
       <li><a href="api.html#_CPPv4N6rlogic8Iterator17iterator_categoryE">rlogic::Iterator::iterator_category (C++ type)</a>
 </li>
@@ -338,7 +346,7 @@
 </li>
       <li><a href="api.html#_CPPv4N6rlogic8Iterator14non_const_iterE">rlogic::Iterator::non_const_iter (C++ type)</a>
 </li>
-      <li><a href="api.html#_CPPv4NK6rlogic8IteratorneERK8Iterator">rlogic::Iterator::operator!= (C++ function)</a>
+      <li><a href="api.html#_CPPv4I_bENK6rlogic8IteratorneEbRK8IteratorI1T18internal_container12otherIsConstE">rlogic::Iterator::operator!= (C++ function)</a>
 </li>
       <li><a href="api.html#_CPPv4N6rlogic8IteratormlEv">rlogic::Iterator::operator* (C++ function)</a>
 </li>
@@ -346,9 +354,9 @@
 </li>
       <li><a href="api.html#_CPPv4N6rlogic8IteratorptEv">rlogic::Iterator::operator-&gt; (C++ function)</a>
 </li>
-      <li><a href="api.html#_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE">rlogic::Iterator::operator= (C++ function)</a>, <a href="api.html#_CPPv4N6rlogic8IteratoraSERK8Iterator">[1]</a>
+      <li><a href="api.html#_CPPv4I_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI1T18internal_container12otherIsConstE">rlogic::Iterator::operator= (C++ function)</a>, <a href="api.html#_CPPv4N6rlogic8IteratoraSERK8Iterator">[1]</a>
 </li>
-      <li><a href="api.html#_CPPv4NK6rlogic8IteratoreqERK8Iterator">rlogic::Iterator::operator== (C++ function)</a>
+      <li><a href="api.html#_CPPv4I_bENK6rlogic8IteratoreqEbRK8IteratorI1T18internal_container12otherIsConstE">rlogic::Iterator::operator== (C++ function)</a>
 </li>
       <li><a href="api.html#_CPPv4N6rlogic8Iterator7pointerE">rlogic::Iterator::pointer (C++ type)</a>
 </li>
@@ -380,10 +388,10 @@
 </li>
       <li><a href="api.html#_CPPv4NK6rlogic11LogicEngine9getErrorsEv">rlogic::LogicEngine::getErrors (C++ function)</a>
 </li>
-      <li><a href="api.html#_CPPv4NK6rlogic11LogicEngine8isLinkedERK9LogicNode">rlogic::LogicEngine::isLinked (C++ function)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#_CPPv4NK6rlogic11LogicEngine8isLinkedERK9LogicNode">rlogic::LogicEngine::isLinked (C++ function)</a>
+</li>
       <li><a href="api.html#_CPPv4N6rlogic11LogicEngine4linkERK8PropertyRK8Property">rlogic::LogicEngine::link (C++ function)</a>
 </li>
       <li><a href="api.html#_CPPv4N6rlogic11LogicEngine12loadFromFileENSt11string_viewEPN6ramses5SceneE">rlogic::LogicEngine::loadFromFile (C++ function)</a>

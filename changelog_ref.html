@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>master &mdash; ramses_logic 0.0.1 documentation</title>
+  <title>master &mdash; ramses_logic 0.3.0 documentation</title>
   
 
   
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="build.html">Cloning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#build-requirements">Build requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#build-options">Build options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html#project-version">Project version</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-on-windows">Building on Windows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-in-docker-windows-or-linux">Building in Docker (Windows or Linux)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-on-linux-natively">Building on Linux natively</a></li>
@@ -102,9 +103,13 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#object-lifecycle">Object lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#indexing-inside-and-outside-lua">Indexing inside and outside Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#creating-links-between-scripts">Creating links between scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#performance-and-caching">Performance and caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#error-handling">Error handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#using-lua-modules">Using Lua modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#print-messages-from-within-lua">Print messages from within Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#iterating-over-object-collections">Iterating over object collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#saving-loading-from-file">Saving/Loading from file</a></li>
@@ -117,16 +122,9 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">master</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#v0-2-0">v0.2.0</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#bugfixes">Bugfixes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#fixes">Fixes</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#v0-1-0">v0.1.0</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#initial-features">Initial features</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="#v0-3-0">v0.3.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#v0-2-0">v0.2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#v0-1-0">v0.1.0</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developers</span></p>
 <ul>
@@ -206,10 +204,33 @@
   <div class="section" id="master">
 <h1>master<a class="headerlink" href="#master" title="Permalink to this headline">¶</a></h1>
 </div>
+<div class="section" id="v0-3-0">
+<h1>v0.3.0<a class="headerlink" href="#v0-3-0" title="Permalink to this headline">¶</a></h1>
+<p><strong>New features</strong></p>
+<ul class="simple">
+<li><p>Optimization to only execute LogicNodes with changed inputs</p></li>
+<li><p>Support arrays of primitives</p></li>
+</ul>
+<p><strong>Bugfixes</strong></p>
+<ul class="simple">
+<li><p>Const-iterators can be initialized from non-const iterators</p></li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li><p>Check Ramses version during build time to ensure compatibility</p></li>
+<li><p>loadFromFile() checks ramses version for compability</p></li>
+<li><p>Lua Scripts have all standard Lua modules by default (see docs for details)</p></li>
+<li><p>Currently supports ramses &gt;= 26.0.4 and &lt; 27</p></li>
+</ul>
+<p><strong>Build system</strong></p>
+<ul class="simple">
+<li><p>Provides version info as CMake Cache variable</p></li>
+<li><p>Fails build if ramses version is not compatible</p></li>
+</ul>
+</div>
 <div class="section" id="v0-2-0">
 <h1>v0.2.0<a class="headerlink" href="#v0-2-0" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="bugfixes">
-<h2>Bugfixes<a class="headerlink" href="#bugfixes" title="Permalink to this headline">¶</a></h2>
+<p><strong>Bugfixes</strong></p>
 <ul>
 <li><p>Fixed a bug with recent sol and Visual Studio 16.7.4</p>
 <blockquote>
@@ -221,9 +242,7 @@
 </div></blockquote>
 </li>
 </ul>
-</div>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p><strong>Features</strong></p>
 <ul>
 <li><p>Improved class hierarchy:</p>
 <blockquote>
@@ -259,19 +278,15 @@
 </li>
 <li><p>Improved documentation</p></li>
 </ul>
-</div>
-<div class="section" id="fixes">
-<h2>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h2>
+<p><strong>Fixes</strong></p>
 <ul class="simple">
 <li><p>Remove flatbuffers targets from build</p></li>
 </ul>
 </div>
-</div>
 <div class="section" id="v0-1-0">
 <h1>v0.1.0<a class="headerlink" href="#v0-1-0" title="Permalink to this headline">¶</a></h1>
 <p>First version published on Github</p>
-<div class="section" id="initial-features">
-<h2>Initial features<a class="headerlink" href="#initial-features" title="Permalink to this headline">¶</a></h2>
+<p><strong>Initial features</strong></p>
 <ul>
 <li><p>Script loading and execution</p></li>
 <li><p>Script input/output access from C++</p></li>
@@ -299,7 +314,6 @@
 <li><p>Possible to install, package, or build standalone using CMake</p></li>
 <li><p>Embeddable to other projects via CMake add_subdirectory()</p></li>
 </ul>
-</div>
 </div>
 
 

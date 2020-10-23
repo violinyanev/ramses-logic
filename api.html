@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; ramses_logic 0.0.1 documentation</title>
+  <title>Overview &mdash; ramses_logic 0.3.0 documentation</title>
   
 
   
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="build.html">Cloning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#build-requirements">Build requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#build-options">Build options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html#project-version">Project version</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-on-windows">Building on Windows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-in-docker-windows-or-linux">Building in Docker (Windows or Linux)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build.html#building-on-linux-natively">Building on Linux natively</a></li>
@@ -102,9 +103,13 @@
 <p class="caption"><span class="caption-text">API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#object-lifecycle">Object lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#indexing-inside-and-outside-lua">Indexing inside and outside Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#creating-links-between-scripts">Creating links between scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#linking-scripts-to-ramses-scenes">Linking scripts to Ramses scenes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#performance-and-caching">Performance and caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#error-handling">Error handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#using-lua-modules">Using Lua modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#print-messages-from-within-lua">Print messages from within Lua</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#iterating-over-object-collections">Iterating over object collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#saving-loading-from-file">Saving/Loading from file</a><ul>
@@ -140,6 +145,7 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-3-0">v0.3.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
 </ul>
@@ -222,7 +228,8 @@
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Prefer learning by example? Jump straight to the <a class="reference internal" href="#list-of-all-examples"><span class="std std-ref">examples</span></a>!</p>
+<p>Prefer learning by example? Jump straight to the <a class="reference internal" href="#list-of-all-examples"><span class="std std-ref">examples</span></a>!
+Looking for a specific class or method? Check the <a class="reference internal" href="#class-index"><span class="std std-ref">class index</span></a></p>
 </div>
 <p>The entry point to <code class="docutils literal notranslate"><span class="pre">RAMSES</span> <span class="pre">logic</span></code> is a factory-style class <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> which can
 create instances of all other types of objects supported by <code class="docutils literal notranslate"><span class="pre">RAMSES</span> <span class="pre">Logic</span></code>:</p>
@@ -294,10 +301,92 @@ but the properties have a value which can be read and written.</p>
 function is executed every time one or more of the values in <code class="docutils literal notranslate"><span class="pre">IN</span></code> changes, either when the <code class="docutils literal notranslate"><span class="pre">C++</span></code> application
 changed them explicitly, or when any of the inputs is linked to another script’s output whose value changed.</p>
 <p>For more information about <code class="docutils literal notranslate"><span class="pre">Lua</span></code> scripts, refer to the <a class="reference internal" href="#_CPPv4N6rlogic9LuaScriptE" title="rlogic::LuaScript"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LuaScript</span></code></a> class documentation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">interface()</span></code> method enforces static types on the script’s interface, while Lua is a dynamically typed
+language. This is meant to make it easier and less error-prone to integrate Lua scripts with C++/Java code,
+which are otherwise statically typed languages. Note that in the example above, the C++ code used get&lt;T&gt; and
+set&lt;T&gt; to interact with the scripts. The underlying <a class="reference internal" href="#_CPPv4N6rlogic8PropertyE" title="rlogic::Property"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::Property</span></code></a> class also has a <a class="reference internal" href="#_CPPv4NK6rlogic8Property7getTypeEv" title="rlogic::Property::getType"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::Property::getType()</span></code></a>
+method which provides the type of the property as an enum value.</p>
 <p>You can <a class="reference internal" href="#creating-links-between-scripts"><span class="std std-ref">link scripts</span></a> to form a more sophisticated logic execution graph.</p>
 <p>You can <a class="reference internal" href="#linking-scripts-to-ramses-scenes"><span class="std std-ref">bind to Ramses objects</span></a> to control a 3D <code class="docutils literal notranslate"><span class="pre">Ramses</span></code> scene.</p>
 <p>Finally, the <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> class and all its content can be also saved/loaded from a file. Refer to
 <a class="reference internal" href="#saving-loading-from-file"><span class="std std-ref">the section on saving/loading from files for more details</span></a>.</p>
+</div>
+<div class="section" id="object-lifecycle">
+<h1>Object lifecycle<a class="headerlink" href="#object-lifecycle" title="Permalink to this headline">¶</a></h1>
+<p>All objects besides the <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> instance follow a strict factory pattern.
+An object <code class="docutils literal notranslate"><span class="pre">X</span></code> is created by a method of the shape <code class="docutils literal notranslate"><span class="pre">X*</span> <span class="pre">LogicEngine::createX(...)</span></code>. The pointer
+returned shall not be freed or deleted, instead objects must be destroyed by calling <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngine7destroyER9LogicNode" title="rlogic::LogicEngine::destroy"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::LogicEngine::destroy()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This may seem strange for a library which is based on <code class="docutils literal notranslate"><span class="pre">C++17</span></code>, but there are good reasons
+for this design choice. Smart pointers don’t work well together with Windows DLL’s, specifically
+when combining different CRTs. In order to provide a stable API on Windows
+we chose to use raw pointers and hide object creation/deletion behind a pimpl/factory pattern.</p>
+</div>
+<p>The <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> doesn’t create or destroy objects on its own - all data is
+explicitly created by calling <code class="docutils literal notranslate"><span class="pre">create</span></code> and <code class="docutils literal notranslate"><span class="pre">destroy</span></code> methods. There are two special cases worth mentioning:</p>
+<ul class="simple">
+<li><p>if <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> is destroyed, all objects are destroyed as well and theirs pointers invalidated</p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic11LogicEngine12loadFromFileENSt11string_viewEPN6ramses5SceneE" title="rlogic::LogicEngine::loadFromFile"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::LogicEngine::loadFromFile()</span></code></a> destroys all objects previously created before the new content is loaded from the file</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Loading data from files will invalidate all previous pointers to objects in
+the:class:<cite>rlogic::LogicEngine</cite>. To avoid that, we recommend generally avoiding using
+a logicengine instance which already has content to load from files, and instead always
+create a fresh instance.</p>
+</div>
+</div>
+<div class="section" id="indexing-inside-and-outside-lua">
+<h1>Indexing inside and outside Lua<a class="headerlink" href="#indexing-inside-and-outside-lua" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Lua</span></code> has traditionally used indexing starting at 1, countrary to other popular script or
+programming languages. Thus, the syntax and type checks of the <code class="docutils literal notranslate"><span class="pre">Ramses</span> <span class="pre">Logic</span></code> runtime honours
+standard indexing used in Lua (starting by 1). This allows for example to use <code class="docutils literal notranslate"><span class="pre">Lua</span></code> tables as initializer
+lists for arrays, without having to provide indices. Take a look at the following code sample:</p>
+<div class="highlight-lua notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kr">function</span> <span class="nf">interface</span><span class="p">()</span>
+    <span class="n">OUT</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">ARRAY</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">INT</span><span class="p">)</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nf">run</span><span class="p">()</span>
+    <span class="c1">-- This will work</span>
+<span class="hll">    <span class="n">OUT</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="p">{</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">}</span>
+</span>    <span class="c1">-- This will also work</span>
+<span class="hll">    <span class="n">OUT</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="hll">        <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
+</span><span class="hll">        <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>
+</span><span class="hll">    <span class="p">}</span>
+</span>    <span class="c1">-- This will not work and will result in error</span>
+<span class="hll">    <span class="n">OUT</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="hll">        <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
+</span><span class="hll">        <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="kr">end</span>
+</pre></div>
+</td></tr></table></div>
+<p>The first two snippets are equivalent and will work. The first syntax (line 7) is obviously most convenient - just
+provide all array elements in the Lua table. Note that <strong>Lua will implicitly index elements starting from 1 with this syntax</strong>.
+The second syntax (line 9-12) is equivalent to the first one, but explicitly sets table indices. The third syntax (line 14-17)
+is the one which feels intuitive for <code class="docutils literal notranslate"><span class="pre">C/C++</span></code> developers, but will result in errors inside Lua scripts.</p>
+<p>In order to achieve memory efficiency, but also to be consistent with <code class="docutils literal notranslate"><span class="pre">C/C++</span></code> rules, the <code class="docutils literal notranslate"><span class="pre">C++</span></code> API of <code class="docutils literal notranslate"><span class="pre">Ramses</span> <span class="pre">Logic</span></code>
+provides index access starting from 0 (for example <a class="reference internal" href="#_CPPv4NK6rlogic8Property8getChildE6size_t" title="rlogic::Property::getChild"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::Property::getChild()</span></code></a>). The index mapping is taken over by
+the <code class="docutils literal notranslate"><span class="pre">Ramses</span> <span class="pre">Logic</span></code> library.</p>
 </div>
 <div class="section" id="creating-links-between-scripts">
 <h1>Creating links between scripts<a class="headerlink" href="#creating-links-between-scripts" title="Permalink to this headline">¶</a></h1>
@@ -407,36 +496,39 @@ partial graphics updates if a any of the scripts has an error.</p>
 <p>If you destroy a still linked LogicNode with <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngine7destroyER9LogicNode" title="rlogic::LogicEngine::destroy"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::LogicEngine::destroy()</span></code></a>, all links from and to this <a class="reference internal" href="#_CPPv4N6rlogic9LogicNodeE" title="rlogic::LogicNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicNode</span></code></a> will
 be removed aswell.</p>
 </div>
+<div class="section" id="performance-and-caching">
+<h1>Performance and caching<a class="headerlink" href="#performance-and-caching" title="Permalink to this headline">¶</a></h1>
+<p>From performance point of view, it is not necessary to execute each <a class="reference internal" href="#_CPPv4N6rlogic9LogicNodeE" title="rlogic::LogicNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicNode</span></code></a> in an update step. LogicNodes with not changed inputs
+since the last update step, can be omitted. This is because the outputs of this <a class="reference internal" href="#_CPPv4N6rlogic9LogicNodeE" title="rlogic::LogicNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicNode</span></code></a> should not change if another update will be executed.
+There is one exception to this rule. If a <a class="reference internal" href="#_CPPv4N6rlogic9LogicNodeE" title="rlogic::LogicNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicNode</span></code></a> has not been updated before, it will always be updated, no matter whether inputs
+are changed or not.
+As a user you usally don’t have to care about this mechanism, you just should know that LogicNode are only executed if at least one input is changed.</p>
+</div>
 <div class="section" id="error-handling">
 <h1>Error handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h1>
 <p>Some of the <code class="docutils literal notranslate"><span class="pre">RAMSES</span> <span class="pre">Logic</span></code> classes’ methods can issue errors when used incorrectly or when
-a <code class="docutils literal notranslate"><span class="pre">Lua</span></code> script encounters a compile-time or run-time error. Dealing with such errors gracefully
-can be done like this:</p>
-<div class="highlight-cpp notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-
-<span class="n">ARamsesLogicClass</span> <span class="n">object</span><span class="p">;</span>
-<span class="kt">bool</span> <span class="n">success</span> <span class="o">=</span> <span class="n">object</span><span class="p">.</span><span class="n">doSomething</span><span class="p">();</span>
-<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">success</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">error</span><span class="p">:</span> <span class="n">object</span><span class="p">.</span><span class="n">getErrors</span><span class="p">())</span>
-    <span class="p">{</span>
-        <span class="c1">// Or do something else with the error</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Encountered error: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">error</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</td></tr></table></div>
+a <code class="docutils literal notranslate"><span class="pre">Lua</span></code> script encounters a compile-time or run-time error. Those errors are globally collected
+by the <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> class and can be obtained by calling <a class="reference internal" href="#_CPPv4NK6rlogic11LogicEngine9getErrorsEv" title="rlogic::LogicEngine::getErrors"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::LogicEngine::getErrors()</span></code></a>.
+Beware that any of the mutable methods of <a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a> clear the previously generated errors
+in the list, so that the list only ever contains the errors since the last method call.</p>
+<p>For code samples which demonstrate how compile-time and runtime errors can be gracefully handled,
+have a look at the <a class="reference internal" href="#list-of-all-examples"><span class="std std-ref">examples</span></a>.</p>
+</div>
+<div class="section" id="using-lua-modules">
+<h1>Using Lua modules<a class="headerlink" href="#using-lua-modules" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">Logic</span> <span class="pre">Engine</span></code> restricts which Lua modules can be used to the standard modules
+of <code class="docutils literal notranslate"><span class="pre">Lua</span> <span class="pre">5.1</span></code>:</p>
+<ul class="simple">
+<li><p>Base library</p></li>
+<li><p>String</p></li>
+<li><p>I/O</p></li>
+<li><p>Table</p></li>
+<li><p>Math</p></li>
+<li><p>OS</p></li>
+<li><p>Debug</p></li>
+</ul>
+<p>For more information on the standard modules, refer to the official
+<a class="reference external" href="https://www.lua.org/manual/5.1/manual.html#5">Lua documentation</a> of the standard modules.</p>
 </div>
 <div class="section" id="print-messages-from-within-lua">
 <h1>Print messages from within Lua<a class="headerlink" href="#print-messages-from-within-lua" title="Permalink to this headline">¶</a></h1>
@@ -806,6 +898,35 @@ execute scripts which are tested and verified to be benign.</p>
 </div>
 <div class="section" id="class-index">
 <h1>Class Index<a class="headerlink" href="#class-index" title="Permalink to this headline">¶</a></h1>
+<p>Top-level API classes:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic11LogicEngineE" title="rlogic::LogicEngine"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicEngine</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic9LuaScriptE" title="rlogic::LuaScript"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LuaScript</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic17RamsesNodeBindingE" title="rlogic::RamsesNodeBinding"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::RamsesNodeBinding</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic23RamsesAppearanceBindingE" title="rlogic::RamsesAppearanceBinding"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::RamsesAppearanceBinding</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic8PropertyE" title="rlogic::Property"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::Property</span></code></a></p></li>
+</ul>
+<p>Base classes:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic9LogicNodeE" title="rlogic::LogicNode"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::LogicNode</span></code></a> (base for almost everything)</p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic13RamsesBindingE" title="rlogic::RamsesBinding"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::RamsesBinding</span></code></a> (base for all bindings)</p></li>
+</ul>
+<p>Iterators:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::Iterator</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4I0EN6rlogic10CollectionE" title="rlogic::Collection"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rlogic::Collection</span></code></a></p></li>
+</ul>
+<p>Free functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic21GetRamsesLogicVersionEv" title="rlogic::GetRamsesLogicVersion"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::GetRamsesLogicVersion()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic6Logger13SetLogHandlerERK14LogHandlerFunc" title="rlogic::Logger::SetLogHandler"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::Logger::SetLogHandler()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4N6rlogic6Logger17SetDefaultLoggingEb" title="rlogic::Logger::SetDefaultLogging"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rlogic::Logger::SetDefaultLogging()</span></code></a></p></li>
+</ul>
+<p>Type traits:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#_CPPv4I0EN6rlogic18PropertyTypeToEnumE" title="rlogic::PropertyTypeToEnum"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">rlogic::PropertyTypeToEnum</span></code></a></p></li>
+<li><p><a class="reference internal" href="#_CPPv4I0EN6rlogic19IsPrimitivePropertyE" title="rlogic::IsPrimitiveProperty"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">rlogic::IsPrimitiveProperty</span></code></a></p></li>
+</ul>
 <dl class="cpp class">
 <dt id="_CPPv4I0EN6rlogic10CollectionE">
 <span id="_CPPv3I0EN6rlogic10CollectionE"></span><span id="_CPPv2I0EN6rlogic10CollectionE"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_collection"></span><em class="property">class </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">Collection</code><a class="headerlink" href="#_CPPv4I0EN6rlogic10CollectionE" title="Permalink to this definition">¶</a><br /></dt>
@@ -988,7 +1109,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp struct">
 <dt id="_CPPv4I0EN6rlogic19IsPrimitivePropertyE">
 <span id="_CPPv3I0EN6rlogic19IsPrimitivePropertyE"></span><span id="_CPPv2I0EN6rlogic19IsPrimitivePropertyE"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="structrlogic_1_1_is_primitive_property"></span><em class="property">struct </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">IsPrimitiveProperty</code><a class="headerlink" href="#_CPPv4I0EN6rlogic19IsPrimitivePropertyE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;EPropertyType.h&gt;</em><p>Type trait which can be used to check if a property is primitive or not. Primitive properties can be set or queried for a value, whereas non-primitive properties can’t. See also <a class="reference internal" href="#classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"><span class="std std-ref">Property::set()</span></a> and <a class="reference internal" href="#classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"><span class="std std-ref">Property::get()</span></a> </p>
+<dd><em>#include &lt;EPropertyType.h&gt;</em><p>Type trait which can be used to check if a type is primitive or not. “primitive” in this context means the type can be used as a template for <a class="reference internal" href="#classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"><span class="std std-ref">rlogic::Property::set()</span></a> and <a class="reference internal" href="#classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"><span class="std std-ref">rlogic::Property::get()</span></a>, i.e. it has a value which can be directly set/obtained, as opposed to non-primitive types like structs or arrays which don’t have a singular settable value. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Static Attributes</p>
 <dl class="cpp var">
@@ -1224,8 +1345,8 @@ execute scripts which are tested and verified to be benign.</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6rlogic8IteratoreqERK8Iterator">
-<span id="_CPPv3NK6rlogic8IteratoreqERK8Iterator"></span><span id="_CPPv2NK6rlogic8IteratoreqERK8Iterator"></span><span id="rlogic::Iterator::eq-operator__IteratorCRC"></span><span class="target" id="classrlogic_1_1_iterator_1afd1908c9fa6919d7f0762e756306aad8"></span>bool <code class="sig-name descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a> &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4NK6rlogic8IteratoreqERK8Iterator" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I_bENK6rlogic8IteratoreqEbRK8IteratorI1T18internal_container12otherIsConstE">
+<span id="_CPPv3I_bENK6rlogic8IteratoreqERK8IteratorI1T18internal_container12otherIsConstE"></span><span id="_CPPv2I_bENK6rlogic8IteratoreqERK8IteratorI1T18internal_container12otherIsConstE"></span>template&lt;bool <code class="sig-name descname">otherIsConst</code>&gt;<br /><span class="target" id="classrlogic_1_1_iterator_1a64c665d7bdbf3d1e47e07eaa0e2068a6"></span>bool <code class="sig-name descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a>&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::T">T</a>, <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::internal_container">internal_container</a>, <a class="reference internal" href="#_CPPv4I_bENK6rlogic8IteratoreqEbRK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::operator==::otherIsConst">otherIsConst</a>&gt; &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4I_bENK6rlogic8IteratoreqEbRK8IteratorI1T18internal_container12otherIsConstE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Equality operator. <dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>true if the iterators point to the same object internally </p>
 </dd>
@@ -1238,8 +1359,8 @@ execute scripts which are tested and verified to be benign.</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4NK6rlogic8IteratorneERK8Iterator">
-<span id="_CPPv3NK6rlogic8IteratorneERK8Iterator"></span><span id="_CPPv2NK6rlogic8IteratorneERK8Iterator"></span><span id="rlogic::Iterator::neq-operator__IteratorCRC"></span><span class="target" id="classrlogic_1_1_iterator_1a5edca9110224248e7851414554ae933f"></span>bool <code class="sig-name descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a> &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4NK6rlogic8IteratorneERK8Iterator" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I_bENK6rlogic8IteratorneEbRK8IteratorI1T18internal_container12otherIsConstE">
+<span id="_CPPv3I_bENK6rlogic8IteratorneERK8IteratorI1T18internal_container12otherIsConstE"></span><span id="_CPPv2I_bENK6rlogic8IteratorneERK8IteratorI1T18internal_container12otherIsConstE"></span>template&lt;bool <code class="sig-name descname">otherIsConst</code>&gt;<br /><span class="target" id="classrlogic_1_1_iterator_1a97a3c03d48c940b77a4cd7743b2bb7e5"></span>bool <code class="sig-name descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a>&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::T">T</a>, <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::internal_container">internal_container</a>, <a class="reference internal" href="#_CPPv4I_bENK6rlogic8IteratorneEbRK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::operator!=::otherIsConst">otherIsConst</a>&gt; &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4I_bENK6rlogic8IteratorneEbRK8IteratorI1T18internal_container12otherIsConstE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Inequality operator. <dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>true if the iterators point to different objects internally </p>
 </dd>
@@ -1258,8 +1379,8 @@ execute scripts which are tested and verified to be benign.</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE">
-<span id="_CPPv3I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE"></span><span id="_CPPv2I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE"></span>template&lt;typename <code class="sig-name descname">other_T</code>, typename <code class="sig-name descname">other_internal_container</code>, bool <code class="sig-name descname">wasConst</code>, class = std::enable_if_t&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::isConst">isConst</a> &amp;&amp; !<a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::Iterator::wasConst">wasConst</a>&gt;&gt;<br /><span class="target" id="classrlogic_1_1_iterator_1a90897b2384591f0ea52a89d90bc3676d"></span><code class="sig-name descname">Iterator</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::Iterator">Iterator</a>&lt;<a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::Iterator::other_T">other_T</a>, <a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::Iterator::other_internal_container">other_internal_container</a>, <a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::Iterator::wasConst">wasConst</a>&gt; &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4I00_b0EN6rlogic8Iterator8IteratorERK8IteratorI7other_T24other_internal_container8wasConstE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE">
+<span id="_CPPv3I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE"></span><span id="_CPPv2I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE"></span>template&lt;bool <code class="sig-name descname">otherIsConst</code>, typename = std::enable_if_t&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::isConst">isConst</a> &amp;&amp; !<a class="reference internal" href="#_CPPv4I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::Iterator::otherIsConst">otherIsConst</a>&gt;&gt;<br /><span class="target" id="classrlogic_1_1_iterator_1a064e82b097a43465cf4c3d9d814eb240"></span><code class="sig-name descname">Iterator</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::Iterator">Iterator</a>&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::T">T</a>, <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::internal_container">internal_container</a>, <a class="reference internal" href="#_CPPv4I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::Iterator::otherIsConst">otherIsConst</a>&gt; &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4I_b0EN6rlogic8Iterator8IteratorERK8IteratorI1T18internal_container12otherIsConstE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Constructor which allows const-iterator to be constructed from a non-const iterator, but not the other way around <dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">other</span></code>: iterator to construct from </p></li>
@@ -1270,8 +1391,8 @@ execute scripts which are tested and verified to be benign.</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE">
-<span id="_CPPv3I00_b0EN6rlogic8IteratoraSERK8IteratorI7other_T24other_internal_container8wasConstE"></span><span id="_CPPv2I00_b0EN6rlogic8IteratoraSERK8IteratorI7other_T24other_internal_container8wasConstE"></span>template&lt;typename <code class="sig-name descname">other_T</code>, typename <code class="sig-name descname">other_internal_container</code>, bool <code class="sig-name descname">wasConst</code>, class = std::enable_if_t&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::isConst">isConst</a> &amp;&amp; !<a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::operator=::wasConst">wasConst</a>&gt;&gt;<br /><span class="target" id="classrlogic_1_1_iterator_1ad01ff83d86c73cad3a2570367a1956de"></span><a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a> &amp;<code class="sig-name descname">operator=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a>&lt;<a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::operator=::other_T">other_T</a>, <a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::operator=::other_internal_container">other_internal_container</a>, <a class="reference internal" href="#_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE" title="rlogic::Iterator::operator=::wasConst">wasConst</a>&gt; &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4I00_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI7other_T24other_internal_container8wasConstE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv4I_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI1T18internal_container12otherIsConstE">
+<span id="_CPPv3I_b0EN6rlogic8IteratoraSERK8IteratorI1T18internal_container12otherIsConstE"></span><span id="_CPPv2I_b0EN6rlogic8IteratoraSERK8IteratorI1T18internal_container12otherIsConstE"></span>template&lt;bool <code class="sig-name descname">otherIsConst</code>, class = std::enable_if_t&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::isConst">isConst</a> &amp;&amp; !<a class="reference internal" href="#_CPPv4I_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::operator=::otherIsConst">otherIsConst</a>&gt;&gt;<br /><span class="target" id="classrlogic_1_1_iterator_1a589010a4f8e83f8a2aed9dd6b51aedd1"></span><a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a> &amp;<code class="sig-name descname">operator=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator">Iterator</a>&lt;<a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::T">T</a>, <a class="reference internal" href="#_CPPv4I00_bEN6rlogic8IteratorE" title="rlogic::Iterator::internal_container">internal_container</a>, <a class="reference internal" href="#_CPPv4I_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI1T18internal_container12otherIsConstE" title="rlogic::Iterator::operator=::otherIsConst">otherIsConst</a>&gt; &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv4I_b0EN6rlogic8IteratoraSER8IteratorRK8IteratorI1T18internal_container12otherIsConstE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Assignment operator which allows const-iterator to be assigned from a non-const iterator, but not the other way around <dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">other</span></code>: iterator to be assign from </p></li>
@@ -1348,12 +1469,25 @@ execute scripts which are tested and verified to be benign.</p>
 </dd></dl>
 
 </div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Friends</p>
+<dl class="friendclass">
+<dt>
+<em class="property">friend class</em> Iterator&lt; T, internal_container, true &gt;</dt>
+</dl>
+
+<dl class="friendclass">
+<dt>
+<em class="property">friend class</em> Iterator&lt; T, internal_container, false &gt;</dt>
+</dl>
+
+</div>
 </dd></dl>
 
 <dl class="cpp class">
 <dt id="_CPPv4N6rlogic11LogicEngineE">
 <span id="_CPPv3N6rlogic11LogicEngineE"></span><span id="_CPPv2N6rlogic11LogicEngineE"></span><span id="rlogic::LogicEngine"></span><span class="target" id="classrlogic_1_1_logic_engine"></span><em class="property">class </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">LogicEngine</code><a class="headerlink" href="#_CPPv4N6rlogic11LogicEngineE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;LogicEngine.h&gt;</em><p>Central object which creates and manages the lifecycle and execution of scripts, bindings, and all other objects supported by the Ramses Logic library.</p>
+<dd><em>#include &lt;LogicEngine.h&gt;</em><p>Central object which creates and manages the lifecycle and execution of scripts, bindings, and all other objects supported by the Ramses Logic library. All objects created by this class’ methods must be destroyed with <a class="reference internal" href="#classrlogic_1_1_logic_engine_1af67d86eea857ed67344853f945bf8317"><span class="std std-ref">destroy</span></a>!</p>
 <p><ul class="simple">
 <li><p>Use the create[Type] methods to create various objects, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1af67d86eea857ed67344853f945bf8317"><span class="std std-ref">destroy()</span></a> to delete them.</p></li>
 <li><p>Use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac1d4e676c6bee11ad98b7b2d816acab9"><span class="std std-ref">link</span></a> and <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a985cd151793247fba1ab5f5a0449b9e6"><span class="std std-ref">unlink</span></a> to connect data properties between these objects</p></li>
@@ -1413,7 +1547,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dd><p>Creates a new <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">rlogic::LuaScript</span></a> from an existing Lua source file. Refer to the <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">rlogic::LuaScript</span></a> class documentation for requirements that Lua scripts must fulfill in order to be added to the <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a76582c1bc1496b485f056567551f505c"><span class="std std-ref">LogicEngine</span></a>.</p>
 <p>Attention! This method clears all previous errors! See also docs of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a></p>
 <p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. </p>
+<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. The script can be destroyed by calling the <a class="reference internal" href="#classrlogic_1_1_logic_engine_1af67d86eea857ed67344853f945bf8317"><span class="std std-ref">destroy</span></a> method </p>
 </dd>
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">filename</span></code>: path to file from which to load the script source code </p></li>
@@ -1430,7 +1564,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dd><p>Creates a new Lua script from a source string. Refer to the <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">rlogic::LuaScript</span></a> class for requirements which Lua scripts must fulfill in order to be added to the <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a76582c1bc1496b485f056567551f505c"><span class="std std-ref">LogicEngine</span></a>.</p>
 <p>Attention! This method clears all previous errors! See also docs of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a></p>
 <p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. </p>
+<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. The script can be destroyed by calling the <a class="reference internal" href="#classrlogic_1_1_logic_engine_1af67d86eea857ed67344853f945bf8317"><span class="std std-ref">destroy</span></a> method </p>
 </dd>
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">source</span></code>: the Lua source code </p></li>
@@ -1463,7 +1597,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dd><p>Creates a new <a class="reference internal" href="#classrlogic_1_1_ramses_node_binding"><span class="std std-ref">rlogic::RamsesNodeBinding</span></a> which can be used to set the properties of a Ramses Node object.</p>
 <p>Attention! This method clears all previous errors! See also docs of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a></p>
 <p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. </p>
+<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. The binding can be destroyed by calling the <a class="reference internal" href="#classrlogic_1_1_logic_engine_1af67d86eea857ed67344853f945bf8317"><span class="std std-ref">destroy</span></a> method </p>
 </dd>
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: a name for the new <a class="reference internal" href="#classrlogic_1_1_ramses_node_binding"><span class="std std-ref">rlogic::RamsesNodeBinding</span></a>. </p></li>
@@ -1479,7 +1613,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dd><p>Creates a new <a class="reference internal" href="#classrlogic_1_1_ramses_appearance_binding"><span class="std std-ref">rlogic::RamsesAppearanceBinding</span></a> which can be used to set the properties of a Ramses Appearance object.</p>
 <p>Attention! This method clears all previous errors! See also docs of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a></p>
 <p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. </p>
+<dt><strong>Return</strong></dt><dd><p>a pointer to the created object or nullptr if something went wrong during creation. In that case, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. The binding can be destroyed by calling the <a class="reference internal" href="#classrlogic_1_1_logic_engine_1af67d86eea857ed67344853f945bf8317"><span class="std std-ref">destroy</span></a> method </p>
 </dd>
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: a name for the the new <a class="reference internal" href="#classrlogic_1_1_ramses_appearance_binding"><span class="std std-ref">rlogic::RamsesAppearanceBinding</span></a>. </p></li>
@@ -1492,7 +1626,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6rlogic11LogicEngine6updateEv">
 <span id="_CPPv3N6rlogic11LogicEngine6updateEv"></span><span id="_CPPv2N6rlogic11LogicEngine6updateEv"></span><span id="rlogic::LogicEngine::update"></span><span class="target" id="classrlogic_1_1_logic_engine_1ac7f34383e9d0c0122cbef485ae401890"></span>bool <code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rlogic11LogicEngine6updateEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Updates all <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s which were created by this <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a76582c1bc1496b485f056567551f505c"><span class="std std-ref">LogicEngine</span></a> instance. The order in which <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s are executed is determined by the links created between them (see <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac1d4e676c6bee11ad98b7b2d816acab9"><span class="std std-ref">link</span></a> and <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a985cd151793247fba1ab5f5a0449b9e6"><span class="std std-ref">unlink</span></a>). <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s which don’t have any links between then are executed in arbitrary order, but the order is always the same between two invocations of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac7f34383e9d0c0122cbef485ae401890"><span class="std std-ref">update</span></a> without any calls to <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac1d4e676c6bee11ad98b7b2d816acab9"><span class="std std-ref">link</span></a> or <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a985cd151793247fba1ab5f5a0449b9e6"><span class="std std-ref">unlink</span></a> between them.</p>
+<dd><p>Updates all <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s which were created by this <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a76582c1bc1496b485f056567551f505c"><span class="std std-ref">LogicEngine</span></a> instance. The order in which <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s are executed is determined by the links created between them (see <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac1d4e676c6bee11ad98b7b2d816acab9"><span class="std std-ref">link</span></a> and <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a985cd151793247fba1ab5f5a0449b9e6"><span class="std std-ref">unlink</span></a>). <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s which don’t have any links between then are executed in arbitrary order, but the order is always the same between two invocations of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac7f34383e9d0c0122cbef485ae401890"><span class="std std-ref">update</span></a> without any calls to <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac1d4e676c6bee11ad98b7b2d816acab9"><span class="std std-ref">link</span></a> or <a class="reference internal" href="#classrlogic_1_1_logic_engine_1a985cd151793247fba1ab5f5a0449b9e6"><span class="std std-ref">unlink</span></a> between them. As an optimization <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a>’s are only updated, if at least one input of a <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a> has changed since the last call to <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ac7f34383e9d0c0122cbef485ae401890"><span class="std std-ref">update</span></a>.</p>
 <p>Attention! This method clears all previous errors! See also docs of <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a></p>
 <p><dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>true if the update was successful, false otherwise In case of an error, use <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">getErrors()</span></a> to obtain errors. </p>
@@ -1804,17 +1938,8 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp class">
 <dt id="_CPPv4N6rlogic9LuaScriptE">
 <span id="_CPPv3N6rlogic9LuaScriptE"></span><span id="_CPPv2N6rlogic9LuaScriptE"></span><span id="rlogic::LuaScript"></span><span class="target" id="classrlogic_1_1_lua_script"></span><em class="property">class </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">LuaScript</code> : <em class="property">public</em> <a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a>::<a class="reference internal" href="#_CPPv4N6rlogic9LogicNodeE" title="rlogic::LogicNode">LogicNode</a><a class="headerlink" href="#_CPPv4N6rlogic9LuaScriptE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;LuaScript.h&gt;</em><p>The <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> class is the cornerstone of RAMSES Logic as it encapsulates a Lua script and the associated with it Lua environment. <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> instances are created by the <a class="reference internal" href="#classrlogic_1_1_logic_engine"><span class="std std-ref">LogicEngine</span></a> class.</p>
+<dd><em>#include &lt;LuaScript.h&gt;</em><p>The <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> class is the cornerstone of RAMSES Logic as it encapsulates a Lua script and the associated with it Lua environment. <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> instances are created by the <a class="reference internal" href="#classrlogic_1_1_logic_engine"><span class="std std-ref">rlogic::LogicEngine</span></a> class.</p>
 <p>A <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> can be created from Lua source code which must fulfill following requirements:</p>
-<p><ul>
-<li><div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>TODO discuss whether we want to introduce further checks - e.g. must have at least one input and one output</p>
-</div>
-</li>
-<li></li>
-</ul>
-</p>
 <p><ul class="simple">
 <li><p>valid Lua 5.1 syntax</p></li>
 <li><p>contains two global functions - interface() and run() with no parameters and no return values</p></li>
@@ -1827,14 +1952,15 @@ execute scripts which are tested and verified to be benign.</p>
 </pre></div>
 </div>
 </p></li>
-<li><p>TYPE is one of [INT|FLOAT|BOOL|STRING|VEC2F|VEC3F|VEC4F|VEC2I|VEC3I|VEC4I]</p></li>
+<li><p>TYPE is one of [INT|FLOAT|BOOL|STRING|VEC2F|VEC3F|VEC4F|VEC2I|VEC3I|VEC4I], or…</p></li>
+<li><p>TYPE can be also a Lua table with nested properties, obeying the same rules as above, or…</p></li>
+<li><p>TYPE can be an array declaration of the form ARRAY(n, T) where n is a positive integer, and T obeys the same rules as TYPE</p></li>
 <li><p>Each property must have a name (string) - other types like number, bool etc. are not supported as keys</p></li>
-<li><p>TYPE can be also a Lua table with nested properties, obeying the same rules as above</p></li>
 <li><p>the run() function only accesses the IN and OUT global symbols and the properties defined by it</p></li>
 </ul>
 </p>
-<p>Violating any of these requirements will result in errors, which can be obtained either by calling <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">LogicEngine::getErrors()</span></a> (for compile-time errors) or LuaScript::getErrors() for runtime errors). The <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> object encapsulates a Lua environment (see official Lua docs) which strips all global table entries after the script is loaded to the Lua state, and leaves only the run() function.</p>
-<p>See also the full documentation at <a class="reference external" href="https://genivi.github.io/ramses-logic">https://genivi.github.io/ramses-logic</a> for more details on Lua and its interaction with C++. </p>
+<p>Violating any of these requirements will result in errors, which can be obtained by calling <a class="reference internal" href="#classrlogic_1_1_logic_engine_1ad14b1e21da2a3f3ad75c1a35a8cef8a3"><span class="std std-ref">rlogic::LogicEngine::getErrors()</span></a>. The <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> object encapsulates a Lua environment (see official Lua docs) which strips all global table entries after the script is loaded to the Lua state, and leaves only the run() function.</p>
+<p>See also the full documentation at <a class="reference external" href="https://genivi.github.io/ramses-logic/api.html">https://genivi.github.io/ramses-logic/api.html</a> for more details on Lua and its interaction with C++. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
@@ -1946,24 +2072,13 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp class">
 <dt id="_CPPv4N6rlogic8PropertyE">
 <span id="_CPPv3N6rlogic8PropertyE"></span><span id="_CPPv2N6rlogic8PropertyE"></span><span id="rlogic::Property"></span><span class="target" id="classrlogic_1_1_property"></span><em class="property">class </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">Property</code><a class="headerlink" href="#_CPPv4N6rlogic8PropertyE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;Property.h&gt;</em><p>Represents a generic property slot of the <a class="reference internal" href="#classrlogic_1_1_logic_engine"><span class="std std-ref">LogicEngine</span></a>. This can be a script input or output, or a <a class="reference internal" href="#classrlogic_1_1_ramses_node_binding"><span class="std std-ref">RamsesNodeBinding</span></a> input slot. TODO discuss class structure we want to achieve with this - do we want inheritance? If yes, how do we handle type information and casting? </p>
+<dd><em>#include &lt;Property.h&gt;</em><p>Represents a generic property slot of the <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a> and its derived classes. Properties can have primitive types (string, integer, etc.) or complex types (structs, arrays). Complex types can have “children”, i.e. nested properties: named fields (structs), or indexed fields (arrays). </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4NK6rlogic8Property13getChildCountEv">
-<span id="_CPPv3NK6rlogic8Property13getChildCountEv"></span><span id="_CPPv2NK6rlogic8Property13getChildCountEv"></span><span id="rlogic::Property::getChildCountC"></span><span class="target" id="classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"></span>size_t <code class="sig-name descname">getChildCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6rlogic8Property13getChildCountEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the amount of available child (nested) properties. In the case that the <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> is a EPropertyType::STRUCT, the returned number will correspond to the number of properties of that struct. <a class="reference internal" href="#classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"><span class="std std-ref">getChildCount()</span></a> returns always zero for primitive properties like EPropertyType::INT or EPropertyType::FLOAT.</p>
-<p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>the amount of available children. </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt id="_CPPv4NK6rlogic8Property7getTypeEv">
 <span id="_CPPv3NK6rlogic8Property7getTypeEv"></span><span id="_CPPv2NK6rlogic8Property7getTypeEv"></span><span id="rlogic::Property::getTypeC"></span><span class="target" id="classrlogic_1_1_property_1abdd18bf82d85248503842a1f1ff756bb"></span><a class="reference internal" href="#_CPPv4N6rlogic13EPropertyTypeE" title="rlogic::EPropertyType">EPropertyType</a> <code class="sig-name descname">getType</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6rlogic8Property7getTypeEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the type of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> TODO extend this doc once we have not only script properties but also others</p>
+<dd><p>Returns the type of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a></p>
 <p><dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>the type of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> </p>
 </dd>
@@ -1974,7 +2089,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4NK6rlogic8Property7getNameEv">
 <span id="_CPPv3NK6rlogic8Property7getNameEv"></span><span id="_CPPv2NK6rlogic8Property7getNameEv"></span><span id="rlogic::Property::getNameC"></span><span class="target" id="classrlogic_1_1_property_1a6eb01b4ca4d667d9b7f018e50fef7608"></span>std::string_view <code class="sig-name descname">getName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6rlogic8Property7getNameEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the name of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a>. Note that not all properties have a name - for example an array element does not have a name. TODO extend this doc once we have not only script properties but also others</p>
+<dd><p>Returns the name of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a>. Note that not all properties have a name - for example an array element does not have a name. In that case the result will be an empty string view. Struct fields always have a non-empty name.</p>
 <p><dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>the name of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> </p>
 </dd>
@@ -1983,11 +2098,25 @@ execute scripts which are tested and verified to be benign.</p>
 </dd></dl>
 
 <dl class="cpp function">
+<dt id="_CPPv4NK6rlogic8Property13getChildCountEv">
+<span id="_CPPv3NK6rlogic8Property13getChildCountEv"></span><span id="_CPPv2NK6rlogic8Property13getChildCountEv"></span><span id="rlogic::Property::getChildCountC"></span><span class="target" id="classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"></span>size_t <code class="sig-name descname">getChildCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6rlogic8Property13getChildCountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns the amount of available child (nested) properties. If the <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> is of type <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa886ef5dbd655a6c97726d7091c6b173e"><span class="std std-ref">rlogic::EPropertyType::Struct</span></a>, the returned number will correspond to the number of named properties of the struct. If the <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> is of type <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa4410ec34d9e6c1a68100ca0ce033fb17"><span class="std std-ref">rlogic::EPropertyType::Array</span></a>, the method will return the array size. For all other property types <a class="reference internal" href="#classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"><span class="std std-ref">getChildCount</span></a> returns zero.</p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>the number of nested properties. </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt id="_CPPv4NK6rlogic8Property8getChildE6size_t">
 <span id="_CPPv3NK6rlogic8Property8getChildE6size_t"></span><span id="_CPPv2NK6rlogic8Property8getChildE6size_t"></span><span id="rlogic::Property::getChild__sC"></span><span class="target" id="classrlogic_1_1_property_1a22c76194eac11190be490752043b8d62"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6rlogic8PropertyE" title="rlogic::Property">Property</a> *<code class="sig-name descname">getChild</code><span class="sig-paren">(</span>size_t <em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6rlogic8Property8getChildE6size_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the child with the given index.</p>
+<dd><p>Returns the child property with the given <code class="docutils literal notranslate"><span class="pre">index</span></code>. <code class="docutils literal notranslate"><span class="pre">index</span></code> must be &lt; <a class="reference internal" href="#classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"><span class="std std-ref">getChildCount()</span></a>.</p>
+<p>This method can be used to get nested properties of structs and arrays. For primitive types this will always return nullptr.</p>
+<p>Note that array indexing in <a class="reference internal" href="#classrlogic_1_1_property_1a22c76194eac11190be490752043b8d62"><span class="std std-ref">getChild</span></a> follows C++ conventions and <strong>not</strong> Lua conventions! Inside the Lua scripts, you can and must use Lua conventions when indexing arrays (start at 1, end at N) while in C++ you must use [0, N-1].</p>
+<p>Struct properties can also be retrieved by index. The ordering is <strong>not</strong> guaranteed to match the order of declaration inside Lua scripts (Lua explicitly warns to not rely on ordering of named table entries!). However, once a script is created, the index will not change, i.e. it is permitted that user code caches the property index for faster future access.</p>
 <p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>the child with the given index. Only structured properties can return a child. In case of a primitive property nullptr will be returned. If the child index is larger than the value of <a class="reference internal" href="#classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"><span class="std std-ref">getChildCount()</span></a>, nullptr will be returned </p>
+<dt><strong>Return</strong></dt><dd><p>the child with the given index, or nullptr if the property is primitive or the index is out of range </p>
 </dd>
 </dl>
 </p>
@@ -1996,9 +2125,12 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6rlogic8Property8getChildE6size_t">
 <span id="_CPPv3N6rlogic8Property8getChildE6size_t"></span><span id="_CPPv2N6rlogic8Property8getChildE6size_t"></span><span id="rlogic::Property::getChild__s"></span><span class="target" id="classrlogic_1_1_property_1a00eb5907fb0078d47299e416aefee495"></span><a class="reference internal" href="#_CPPv4N6rlogic8PropertyE" title="rlogic::Property">Property</a> *<code class="sig-name descname">getChild</code><span class="sig-paren">(</span>size_t <em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rlogic8Property8getChildE6size_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the child with the given index.</p>
+<dd><p>Returns the child property with the given <code class="docutils literal notranslate"><span class="pre">index</span></code>. <code class="docutils literal notranslate"><span class="pre">index</span></code> must be &lt; <a class="reference internal" href="#classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"><span class="std std-ref">getChildCount()</span></a>.</p>
+<p>This method can be used to get nested properties of structs and arrays. For primitive types this will always return nullptr.</p>
+<p>Note that array indexing in <a class="reference internal" href="#classrlogic_1_1_property_1a22c76194eac11190be490752043b8d62"><span class="std std-ref">getChild</span></a> follows C++ conventions and <strong>not</strong> Lua conventions! Inside the Lua scripts, you can and must use Lua conventions when indexing arrays (start at 1, end at N) while in C++ you must use [0, N-1].</p>
+<p>Struct properties can also be retrieved by index. The ordering is <strong>not</strong> guaranteed to match the order of declaration inside Lua scripts (Lua explicitly warns to not rely on ordering of named table entries!). However, once a script is created, the index will not change, i.e. it is permitted that user code caches the property index for faster future access.</p>
 <p><dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>the child with the given index. Only structured properties can return a child. In case of a primitive property nullptr will be returned. If the child index is larger than the value of <a class="reference internal" href="#classrlogic_1_1_property_1a34399770f3e5d96657a34e5c838194f1"><span class="std std-ref">getChildCount()</span></a>, nullptr will be returned </p>
+<dt><strong>Return</strong></dt><dd><p>the child with the given index, or nullptr if the property is primitive or the index is out of range </p>
 </dd>
 </dl>
 </p>
@@ -2007,8 +2139,10 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6rlogic8Property8getChildENSt11string_viewE">
 <span id="_CPPv3N6rlogic8Property8getChildENSt11string_viewE"></span><span id="_CPPv2N6rlogic8Property8getChildENSt11string_viewE"></span><span id="rlogic::Property::getChild__std::string_view"></span><span class="target" id="classrlogic_1_1_property_1a7de14e49f1ec375ddb3884d9e2e93763"></span><a class="reference internal" href="#_CPPv4N6rlogic8PropertyE" title="rlogic::Property">Property</a> *<code class="sig-name descname">getChild</code><span class="sig-paren">(</span>std::string_view <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rlogic8Property8getChildENSt11string_viewE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the child with the given name. Only structured properties can return a child. In case of a primitive property nullptr will be returned. <dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>the child with the given name. If the child is not available nullptr will be returned This does only work, if the <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> is a struct. If it isn’t a struct nullptr will be returned TODO adjust the docs if arrays are supported </p>
+<dd><p>Searches for a child with the given name. Only properties of type <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa886ef5dbd655a6c97726d7091c6b173e"><span class="std std-ref">rlogic::EPropertyType::Struct</span></a> can return a child by name. In case of a primitive property or array this method will return nullptr.</p>
+<p>Note that this method may be slower than <a class="reference internal" href="#classrlogic_1_1_property_1a00eb5907fb0078d47299e416aefee495"><span class="std std-ref">getChild(size_t index)</span></a> as it must do a string-based search.</p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>the child with the given name, or nullptr if property is not of type <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa886ef5dbd655a6c97726d7091c6b173e"><span class="std std-ref">rlogic::EPropertyType::Struct</span></a> </p>
 </dd>
 </dl>
 </p>
@@ -2017,8 +2151,10 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4NK6rlogic8Property8getChildENSt11string_viewE">
 <span id="_CPPv3NK6rlogic8Property8getChildENSt11string_viewE"></span><span id="_CPPv2NK6rlogic8Property8getChildENSt11string_viewE"></span><span id="rlogic::Property::getChild__std::string_viewC"></span><span class="target" id="classrlogic_1_1_property_1a0c4b34b8ff0898235d5e64843ccce766"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6rlogic8PropertyE" title="rlogic::Property">Property</a> *<code class="sig-name descname">getChild</code><span class="sig-paren">(</span>std::string_view <em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK6rlogic8Property8getChildENSt11string_viewE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the child with the given name. Only structured properties can return a child. In case of a primitive property nullptr will be returned. <dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>the child with the given name. If the child is not available nullptr will be returned This does only work, if the <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> is a struct. If it isn’t a struct nullptr will be returned TODO adjust the docs if arrays are supported </p>
+<dd><p>Searches for a child with the given name. Only properties of type <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa886ef5dbd655a6c97726d7091c6b173e"><span class="std std-ref">rlogic::EPropertyType::Struct</span></a> can return a child by name. In case of a primitive property or array this method will return nullptr.</p>
+<p>Note that this method may be slower than <a class="reference internal" href="#classrlogic_1_1_property_1a00eb5907fb0078d47299e416aefee495"><span class="std std-ref">getChild(size_t index)</span></a> as it must do a string-based search.</p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>the child with the given name, or nullptr if property is not of type <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa886ef5dbd655a6c97726d7091c6b173e"><span class="std std-ref">rlogic::EPropertyType::Struct</span></a> </p>
 </dd>
 </dl>
 </p>
@@ -2027,8 +2163,11 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv">
 <span id="_CPPv3I0ENK6rlogic8Property3getEv"></span><span id="_CPPv2I0ENK6rlogic8Property3getEv"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"></span>std::optional&lt;<a class="reference internal" href="#_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv" title="rlogic::Property::get::T">T</a>&gt; <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Returns the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a>. The supported template types defined by <a class="reference internal" href="#structrlogic_1_1_is_primitive_property_1a117fb6b2082886d733d2476d0c74fac1"><span class="std std-ref">IsPrimitiveProperty&lt;T&gt;::value</span></a> == true. Using any other type will result in linker errors since those are not implemented. If the template type and the internal type do not match, std::nullopt will be returned. <dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> as std::optional. </p>
+<dd><p>Returns the value of this property. The supported template types are defined by <a class="reference internal" href="#structrlogic_1_1_is_primitive_property"><span class="std std-ref">rlogic::IsPrimitiveProperty</span></a> where <a class="reference internal" href="#structrlogic_1_1_is_primitive_property_1a117fb6b2082886d733d2476d0c74fac1"><span class="std std-ref">IsPrimitiveProperty&lt;T&gt;::value</span></a> == true for a type T.</p>
+<p>Attention! We recommend always specifying the template argument T explicitly, and don’t rely on the compiler’s type deduction! If T is not one of the supported types, a linker error will be issued!</p>
+<p>If the template type and the internal type do not match, std::nullopt will be returned.</p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> as std::optional or std::nullopt if T does not match. </p>
 </dd>
 </dl>
 </p>
@@ -2037,11 +2176,13 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4I0EN6rlogic8Property3setEb1T">
 <span id="_CPPv3I0EN6rlogic8Property3setE1T"></span><span id="_CPPv2I0EN6rlogic8Property3setE1T"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"></span>bool <code class="sig-name descname">set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6rlogic8Property3setEb1T" title="rlogic::Property::set::T">T</a> <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6rlogic8Property3setEb1T" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Sets the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> <dl class="simple">
-<dt><strong>Return</strong></dt><dd><p>true if setting the value was successful, false otherwise. </p>
+<dd><p>Sets the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a>. Same rules apply to template parameter T as in <a class="reference internal" href="#classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"><span class="std std-ref">get()</span></a></p>
+<p>Attention! We recommend always specifying the template argument T explicitly, and don’t rely on the compiler’s type deduction! If T is not one of the supported types, a linker error will be issued!</p>
+<p><dl class="simple">
+<dt><strong>Return</strong></dt><dd><p>true if setting the <code class="docutils literal notranslate"><span class="pre">value</span></code> was successful, false otherwise. </p>
 </dd>
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: to set for this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: the value to set for this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> </p></li>
 </ul>
 </dd>
 </dl>
@@ -2130,7 +2271,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp struct">
 <dt id="_CPPv4I0EN6rlogic18PropertyTypeToEnumE">
 <span id="_CPPv3I0EN6rlogic18PropertyTypeToEnumE"></span><span id="_CPPv2I0EN6rlogic18PropertyTypeToEnumE"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="structrlogic_1_1_property_type_to_enum"></span><em class="property">struct </em><code class="sig-name descname">PropertyTypeToEnum</code><a class="headerlink" href="#_CPPv4I0EN6rlogic18PropertyTypeToEnumE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;EPropertyType.h&gt;</em><p>Type trait which converts C++ types to EPropertyType enum for primitive types. </p>
+<dd><em>#include &lt;EPropertyType.h&gt;</em><p>Type trait which converts C++ types to <a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622f"><span class="std std-ref">rlogic::EPropertyType</span></a> enum for primitive types. </p>
 </dd></dl>
 
 <dl class="cpp struct">
@@ -2711,7 +2852,7 @@ this behavior - assign some properties and others not.</p>
 <dl class="cpp enum">
 <dt id="_CPPv4N6rlogic13EPropertyTypeE">
 <span id="_CPPv3N6rlogic13EPropertyTypeE"></span><span id="_CPPv2N6rlogic13EPropertyTypeE"></span><span class="target" id="namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622f"></span><em class="property">enum </em><code class="sig-name descname">EPropertyType</code><a class="headerlink" href="#_CPPv4N6rlogic13EPropertyTypeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>EPropertyType lists the types of properties created and managed by the <a class="reference internal" href="#classrlogic_1_1_logic_engine"><span class="std std-ref">LogicEngine</span></a> class. Currently represent the types supported by <a class="reference internal" href="#classrlogic_1_1_lua_script"><span class="std std-ref">LuaScript</span></a> input/output variables. TODO Violin extend docs once we have more properties </p>
+<dd><p><a class="reference internal" href="#namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622f"><span class="std std-ref">EPropertyType</span></a> lists the types of properties created and managed by the <a class="reference internal" href="#classrlogic_1_1_logic_node"><span class="std std-ref">rlogic::LogicNode</span></a> class and its derivates. </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
 <dt id="_CPPv4N6rlogic13EPropertyType5FloatE">
@@ -2766,6 +2907,11 @@ this behavior - assign some properties and others not.</p>
 <dl class="cpp enumerator">
 <dt id="_CPPv4N6rlogic13EPropertyType4BoolE">
 <span id="_CPPv3N6rlogic13EPropertyType4BoolE"></span><span id="_CPPv2N6rlogic13EPropertyType4BoolE"></span><span class="target" id="namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fac26f15e86e3de4c398a8273272aba034"></span><em class="property">enumerator </em><code class="sig-name descname">Bool</code><a class="headerlink" href="#_CPPv4N6rlogic13EPropertyType4BoolE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N6rlogic13EPropertyType5ArrayE">
+<span id="_CPPv3N6rlogic13EPropertyType5ArrayE"></span><span id="_CPPv2N6rlogic13EPropertyType5ArrayE"></span><span class="target" id="namespacerlogic_1a6c570ff3aa834f8b5b331ab712ed622fa4410ec34d9e6c1a68100ca0ce033fb17"></span><em class="property">enumerator </em><code class="sig-name descname">Array</code><a class="headerlink" href="#_CPPv4N6rlogic13EPropertyType5ArrayE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2921,22 +3067,22 @@ this behavior - assign some properties and others not.</p>
 
 <dl class="dir">
 <dt>
-<span class="target" id="dir_b0856f6b0d80ccb263b2f415c91f9e17"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic/src/include</code></dt>
+<span class="target" id="dir_b0856f6b0d80ccb263b2f415c91f9e17"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic-oss/src/include</code></dt>
 <dd></dd></dl>
 
 <dl class="dir">
 <dt>
-<span class="target" id="dir_c83302885423c98db8ec6c513e8aab40"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic/src/include/public</code></dt>
+<span class="target" id="dir_c83302885423c98db8ec6c513e8aab40"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic-oss/src/include/public</code></dt>
 <dd></dd></dl>
 
 <dl class="dir">
 <dt>
-<span class="target" id="dir_6e2d594124c375357be1c463a2539be5"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic/src/include/public/ramses-logic</code></dt>
+<span class="target" id="dir_6e2d594124c375357be1c463a2539be5"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic-oss/src/include/public/ramses-logic</code></dt>
 <dd></dd></dl>
 
 <dl class="dir">
 <dt>
-<span class="target" id="dir_68267d1309a1af8e8297ef4c3efbcdba"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic/src</code></dt>
+<span class="target" id="dir_68267d1309a1af8e8297ef4c3efbcdba"></span><em>dir</em> <code class="sig-name descname">C:/dev/ramses-logic-oss/src</code></dt>
 <dd></dd></dl>
 
 </div>
