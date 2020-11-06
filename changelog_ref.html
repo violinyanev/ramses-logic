@@ -122,6 +122,7 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#v0-3-1">v0.3.1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#v0-3-0">v0.3.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#v0-1-0">v0.1.0</a></li>
@@ -203,6 +204,24 @@
             
   <div class="section" id="master">
 <h1>master<a class="headerlink" href="#master" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="v0-3-1">
+<h1>v0.3.1<a class="headerlink" href="#v0-3-1" title="Permalink to this headline">¶</a></h1>
+<p><strong>Bugfixes</strong></p>
+<ul class="simple">
+<li><p>Fixed a bug which caused a crash when unlinking and destroying nodes</p></li>
+<li><p>Upgrade ramses from 26.0.4 -&gt; 26.0.6 (fixes important resource creation bug)</p></li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li><p>Property::set&lt;T&gt; and Property::get&lt;T&gt;  trigger a  static assert when used with the wrong type T</p></li>
+<li><p>Add a few debug logs, mainly aimed at debugging if/when logic nodes are updated based on their input changes (only published on custom logger)</p></li>
+<li><p>Errors are now also logged in the order of their appearance, both in console logger and in custom logger</p></li>
+</ul>
+<p><strong>Dependencies</strong></p>
+<ul class="simple">
+<li><p>Updated googletest to a newer version (fixes some clang-tidy issues)</p></li>
+</ul>
 </div>
 <div class="section" id="v0-3-0">
 <h1>v0.3.0<a class="headerlink" href="#v0-3-0" title="Permalink to this headline">¶</a></h1>

@@ -145,6 +145,7 @@
 <p class="caption"><span class="caption-text">ChangeLog</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html">master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-3-1">v0.3.1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-3-0">v0.3.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-2-0">v0.2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog_ref.html#v0-1-0">v0.1.0</a></li>
@@ -1109,7 +1110,7 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp struct">
 <dt id="_CPPv4I0EN6rlogic19IsPrimitivePropertyE">
 <span id="_CPPv3I0EN6rlogic19IsPrimitivePropertyE"></span><span id="_CPPv2I0EN6rlogic19IsPrimitivePropertyE"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="structrlogic_1_1_is_primitive_property"></span><em class="property">struct </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">IsPrimitiveProperty</code><a class="headerlink" href="#_CPPv4I0EN6rlogic19IsPrimitivePropertyE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><em>#include &lt;EPropertyType.h&gt;</em><p>Type trait which can be used to check if a type is primitive or not. “primitive” in this context means the type can be used as a template for <a class="reference internal" href="#classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"><span class="std std-ref">rlogic::Property::set()</span></a> and <a class="reference internal" href="#classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"><span class="std std-ref">rlogic::Property::get()</span></a>, i.e. it has a value which can be directly set/obtained, as opposed to non-primitive types like structs or arrays which don’t have a singular settable value. </p>
+<dd><em>#include &lt;EPropertyType.h&gt;</em><p>Type trait which can be used to check if a type is primitive or not. “primitive” in this context means the type can be used as a template for <a class="reference internal" href="#classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"><span class="std std-ref">rlogic::Property::set()</span></a> and <a class="reference internal" href="#classrlogic_1_1_property_1ab65177508e214ed5fb4584dfdc7ffa83"><span class="std std-ref">rlogic::Property::get()</span></a>, i.e. it has a value which can be directly set/obtained, as opposed to non-primitive types like structs or arrays which don’t have a singular settable value. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Static Attributes</p>
 <dl class="cpp var">
@@ -2162,10 +2163,10 @@ execute scripts which are tested and verified to be benign.</p>
 
 <dl class="cpp function">
 <dt id="_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv">
-<span id="_CPPv3I0ENK6rlogic8Property3getEv"></span><span id="_CPPv2I0ENK6rlogic8Property3getEv"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"></span>std::optional&lt;<a class="reference internal" href="#_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv" title="rlogic::Property::get::T">T</a>&gt; <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3I0ENK6rlogic8Property3getEv"></span><span id="_CPPv2I0ENK6rlogic8Property3getEv"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1ab65177508e214ed5fb4584dfdc7ffa83"></span>std::optional&lt;<a class="reference internal" href="#_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv" title="rlogic::Property::get::T">T</a>&gt; <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4I0ENK6rlogic8Property3getENSt8optionalI1TEEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Returns the value of this property. The supported template types are defined by <a class="reference internal" href="#structrlogic_1_1_is_primitive_property"><span class="std std-ref">rlogic::IsPrimitiveProperty</span></a> where <a class="reference internal" href="#structrlogic_1_1_is_primitive_property_1a117fb6b2082886d733d2476d0c74fac1"><span class="std std-ref">IsPrimitiveProperty&lt;T&gt;::value</span></a> == true for a type T.</p>
-<p>Attention! We recommend always specifying the template argument T explicitly, and don’t rely on the compiler’s type deduction! If T is not one of the supported types, a linker error will be issued!</p>
-<p>If the template type and the internal type do not match, std::nullopt will be returned.</p>
+<p>Attention! We recommend always specifying the template argument T explicitly, and don’t rely on the compiler’s type deduction! If T is not one of the supported types, a static_assert will be triggered!</p>
+<p>Returns nullopt if the template type T does not match the internal type of the property.</p>
 <p><dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> as std::optional or std::nullopt if T does not match. </p>
 </dd>
@@ -2176,8 +2177,8 @@ execute scripts which are tested and verified to be benign.</p>
 <dl class="cpp function">
 <dt id="_CPPv4I0EN6rlogic8Property3setEb1T">
 <span id="_CPPv3I0EN6rlogic8Property3setE1T"></span><span id="_CPPv2I0EN6rlogic8Property3setE1T"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"></span>bool <code class="sig-name descname">set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6rlogic8Property3setEb1T" title="rlogic::Property::set::T">T</a> <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6rlogic8Property3setEb1T" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Sets the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a>. Same rules apply to template parameter T as in <a class="reference internal" href="#classrlogic_1_1_property_1a6fd5865ef9e7c3ced9c4b162e9898ec7"><span class="std std-ref">get()</span></a></p>
-<p>Attention! We recommend always specifying the template argument T explicitly, and don’t rely on the compiler’s type deduction! If T is not one of the supported types, a linker error will be issued!</p>
+<dd><p>Sets the value of this <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a>. Same rules apply to template parameter T as in <a class="reference internal" href="#classrlogic_1_1_property_1ab65177508e214ed5fb4584dfdc7ffa83"><span class="std std-ref">get()</span></a></p>
+<p>Attention! We recommend always specifying the template argument T explicitly, and don’t rely on the compiler’s type deduction! If T is not one of the supported types, a static_assert will be triggered!</p>
 <p><dl class="simple">
 <dt><strong>Return</strong></dt><dd><p>true if setting the <code class="docutils literal notranslate"><span class="pre">value</span></code> was successful, false otherwise. </p>
 </dd>
@@ -2263,6 +2264,21 @@ execute scripts which are tested and verified to be benign.</p>
 <dt id="_CPPv4N6rlogic8Property6m_implE">
 <span id="_CPPv3N6rlogic8Property6m_implE"></span><span id="_CPPv2N6rlogic8Property6m_implE"></span><span id="rlogic::Property::m_impl__std::unique_ptr:internal::PropertyImpl:"></span><span class="target" id="classrlogic_1_1_property_1a577e163396ae724f27aeb01cbe83c24d"></span>std::unique_ptr&lt;<a class="reference internal" href="#_CPPv4N6rlogic8internalE" title="rlogic::internal">internal</a>::PropertyImpl&gt; <code class="sig-name descname">m_impl</code><a class="headerlink" href="#_CPPv4N6rlogic8Property6m_implE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Implementation details of the <a class="reference internal" href="#classrlogic_1_1_property"><span class="std std-ref">Property</span></a> class </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4I0ENK6rlogic8Property11getInternalENSt8optionalI1TEEv">
+<span id="_CPPv3I0ENK6rlogic8Property11getInternalEv"></span><span id="_CPPv2I0ENK6rlogic8Property11getInternalEv"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1a1ed1be2ae632a95dc5f80af034725fe4"></span>std::optional&lt;<a class="reference internal" href="#_CPPv4I0ENK6rlogic8Property11getInternalENSt8optionalI1TEEv" title="rlogic::Property::getInternal::T">T</a>&gt; <code class="sig-name descname">getInternal</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4I0ENK6rlogic8Property11getInternalENSt8optionalI1TEEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Internal implementation of <a class="reference internal" href="#classrlogic_1_1_property_1ab65177508e214ed5fb4584dfdc7ffa83"><span class="std std-ref">get</span></a> </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6rlogic8Property11setInternalEb1T">
+<span id="_CPPv3I0EN6rlogic8Property11setInternalE1T"></span><span id="_CPPv2I0EN6rlogic8Property11setInternalE1T"></span>template&lt;typename <code class="sig-name descname">T</code>&gt;<br /><span class="target" id="classrlogic_1_1_property_1aabfa1139dcf8246f3f9ae94c6cafcb75"></span>bool <code class="sig-name descname">setInternal</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6rlogic8Property11setInternalEb1T" title="rlogic::Property::setInternal::T">T</a> <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6rlogic8Property11setInternalEb1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Internal implementation of <a class="reference internal" href="#classrlogic_1_1_property_1a8a405736326308870feda6417a2092e2"><span class="std std-ref">set</span></a> </p>
 </dd></dl>
 
 </div>
@@ -2825,26 +2841,26 @@ this behavior - assign some properties and others not.</p>
 <dl class="cpp enum">
 <dt id="_CPPv4N6rlogic15ELogMessageTypeE">
 <span id="_CPPv3N6rlogic15ELogMessageTypeE"></span><span id="_CPPv2N6rlogic15ELogMessageTypeE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139"></span><em class="property">enum </em><code class="sig-name descname">ELogMessageType</code><a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageTypeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>ELogMessageType lists the types of available log messages </p>
+<dd><p>ELogMessageType lists the types of available log messages. The integer represents the priority of the log messages (lower means more important and higher priority). </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
-<dt id="_CPPv4N6rlogic15ELogMessageType4INFOE">
-<span id="_CPPv3N6rlogic15ELogMessageType4INFOE"></span><span id="_CPPv2N6rlogic15ELogMessageType4INFOE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139a551b723eafd6a31d444fcb2f5920fbd3"></span><em class="property">enumerator </em><code class="sig-name descname">INFO</code><a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType4INFOE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp enumerator">
 <dt id="_CPPv4N6rlogic15ELogMessageType5ERRORE">
-<span id="_CPPv3N6rlogic15ELogMessageType5ERRORE"></span><span id="_CPPv2N6rlogic15ELogMessageType5ERRORE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139abb1ca97ec761fc37101737ba0aa2e7c5"></span><em class="property">enumerator </em><code class="sig-name descname">ERROR</code><a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType5ERRORE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N6rlogic15ELogMessageType5ERRORE"></span><span id="_CPPv2N6rlogic15ELogMessageType5ERRORE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139abb1ca97ec761fc37101737ba0aa2e7c5"></span><em class="property">enumerator </em><code class="sig-name descname">ERROR</code> = 2<a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType5ERRORE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
 <dt id="_CPPv4N6rlogic15ELogMessageType7WARNINGE">
-<span id="_CPPv3N6rlogic15ELogMessageType7WARNINGE"></span><span id="_CPPv2N6rlogic15ELogMessageType7WARNINGE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139a059e9861e0400dfbe05c98a841f3f96b"></span><em class="property">enumerator </em><code class="sig-name descname">WARNING</code><a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType7WARNINGE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N6rlogic15ELogMessageType7WARNINGE"></span><span id="_CPPv2N6rlogic15ELogMessageType7WARNINGE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139a059e9861e0400dfbe05c98a841f3f96b"></span><em class="property">enumerator </em><code class="sig-name descname">WARNING</code> = 3<a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType7WARNINGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N6rlogic15ELogMessageType4INFOE">
+<span id="_CPPv3N6rlogic15ELogMessageType4INFOE"></span><span id="_CPPv2N6rlogic15ELogMessageType4INFOE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139a551b723eafd6a31d444fcb2f5920fbd3"></span><em class="property">enumerator </em><code class="sig-name descname">INFO</code> = 4<a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType4INFOE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
 <dt id="_CPPv4N6rlogic15ELogMessageType5DEBUGE">
-<span id="_CPPv3N6rlogic15ELogMessageType5DEBUGE"></span><span id="_CPPv2N6rlogic15ELogMessageType5DEBUGE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139adc30ec20708ef7b0f641ef78b7880a15"></span><em class="property">enumerator </em><code class="sig-name descname">DEBUG</code><a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType5DEBUGE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N6rlogic15ELogMessageType5DEBUGE"></span><span id="_CPPv2N6rlogic15ELogMessageType5DEBUGE"></span><span class="target" id="namespacerlogic_1a6bd0a437ba6d5f5dc289436bbc8f9139adc30ec20708ef7b0f641ef78b7880a15"></span><em class="property">enumerator </em><code class="sig-name descname">DEBUG</code> = 5<a class="headerlink" href="#_CPPv4N6rlogic15ELogMessageType5DEBUGE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2947,13 +2963,13 @@ this behavior - assign some properties and others not.</p>
 <dl class="cpp type">
 <dt id="_CPPv4N6rlogic6LoggerE">
 <span id="_CPPv3N6rlogic6LoggerE"></span><span id="_CPPv2N6rlogic6LoggerE"></span><span id="rlogic::Logger"></span><span class="target" id="namespacerlogic_1_1_logger"></span><em class="property">namespace </em><code class="sig-prename descclassname"><a class="reference internal" href="#_CPPv46rlogic" title="rlogic">rlogic</a><code class="sig-prename descclassname">::</code></code><code class="sig-name descname">Logger</code><a class="headerlink" href="#_CPPv4N6rlogic6LoggerE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Interface to interact with the internal logger. If you want to handle log messages by yourself, you can register an own log handler function with <a class="reference internal" href="#namespacerlogic_1_1_logger_1af091b673892ab6d770c008cebad304fa"><span class="std std-ref">rlogic::Logger::SetLogHandler</span></a>, which is called each time a log message is logged. In addition you can silence the standard output of the log messages </p>
+<dd><p>Interface to interact with the internal logger. If you want to handle log messages by yourself, you can register your own log handler function with <a class="reference internal" href="#namespacerlogic_1_1_logger_1af091b673892ab6d770c008cebad304fa"><span class="std std-ref">rlogic::Logger::SetLogHandler</span></a>, which is called each time a log message is logged. In addition you can silence the standard output of the log messages </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Typedefs</p>
 <dl class="cpp type">
 <dt id="_CPPv4N6rlogic6Logger14LogHandlerFuncE">
 <span id="_CPPv3N6rlogic6Logger14LogHandlerFuncE"></span><span id="_CPPv2N6rlogic6Logger14LogHandlerFuncE"></span><span class="target" id="namespacerlogic_1_1_logger_1a994a61e2ae5ec887df68cfb24e0c16e5"></span><em class="property">using </em><code class="sig-name descname">LogHandlerFunc</code> = std::function&lt;void<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6rlogic15ELogMessageTypeE" title="rlogic::ELogMessageType">ELogMessageType</a>, std::string_view<span class="sig-paren">)</span>&gt;<a class="headerlink" href="#_CPPv4N6rlogic6Logger14LogHandlerFuncE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The LogHandlerFunc can be used to implement an own log handler. The function is called each time a log message occurs. After the call to the function the message is invalid. If you want to keep the message, you can store it in a std::string. E.g. <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">rlogic</span><span class="o">::</span><span class="n">Logger</span><span class="o">::</span><span class="n">SetLogHandler</span><span class="p">([](</span><span class="n">ElogMessageType</span> <span class="n">msgType</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string_view</span> <span class="n">message</span><span class="p">){</span>
+<dd><p>The <a class="reference internal" href="#namespacerlogic_1_1_logger_1a994a61e2ae5ec887df68cfb24e0c16e5"><span class="std std-ref">LogHandlerFunc</span></a> can be used to implement a custom log handler. The function is called for each log message separately. After the call to the function the string data behind std::string_view is deleted. If you want to keep it, you must copy it e.g. to a std::string. E.g. <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">rlogic</span><span class="o">::</span><span class="n">Logger</span><span class="o">::</span><span class="n">SetLogHandler</span><span class="p">([](</span><span class="n">ElogMessageType</span> <span class="n">msgType</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string_view</span> <span class="n">message</span><span class="p">){</span>
     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">message</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">});</span>
 </pre></div>
@@ -2967,17 +2983,17 @@ this behavior - assign some properties and others not.</p>
 <dl class="cpp function">
 <dt id="_CPPv4N6rlogic6Logger13SetLogHandlerERK14LogHandlerFunc">
 <span id="_CPPv3N6rlogic6Logger13SetLogHandlerERK14LogHandlerFunc"></span><span id="_CPPv2N6rlogic6Logger13SetLogHandlerERK14LogHandlerFunc"></span><span id="rlogic::Logger::SetLogHandler__LogHandlerFuncCR"></span><span class="target" id="namespacerlogic_1_1_logger_1af091b673892ab6d770c008cebad304fa"></span>void <code class="sig-name descname">SetLogHandler</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N6rlogic6Logger14LogHandlerFuncE" title="rlogic::Logger::LogHandlerFunc">LogHandlerFunc</a> &amp;<em>logHandlerFunc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rlogic6Logger13SetLogHandlerERK14LogHandlerFunc" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Sets a custom log handler function, which is called each time a log message occurs.</p>
-<p>&#64; param logHandlerFunc which is called for each log message </p>
+<dd><p>Sets a custom log handler function, which is called each time a log message occurs. Note: setting a custom logger incurs a slight performance cost because log messages will be assembled and reported, even if default logging is disabled (<a class="reference internal" href="#namespacerlogic_1_1_logger_1acd213813785318d3735d6f72414b88ab"><span class="std std-ref">SetDefaultLogging</span></a>).</p>
+<p>&#64; param logHandlerFunc function which is called for each log message </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N6rlogic6Logger17SetDefaultLoggingEb">
 <span id="_CPPv3N6rlogic6Logger17SetDefaultLoggingEb"></span><span id="_CPPv2N6rlogic6Logger17SetDefaultLoggingEb"></span><span id="rlogic::Logger::SetDefaultLogging__b"></span><span class="target" id="namespacerlogic_1_1_logger_1acd213813785318d3735d6f72414b88ab"></span>void <code class="sig-name descname">SetDefaultLogging</code><span class="sig-paren">(</span>bool <em>loggingEnabled</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rlogic6Logger17SetDefaultLoggingEb" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Sets the default logging to std::out to enabled or disabled</p>
+<dd><p>Sets the default logging to std::out to enabled or disabled. Enabled by default.</p>
 <p><dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">loggingEnabled</span></code>: state for logging to std::out. </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loggingEnabled</span></code>: true if you want to enable logging to std::out, false otherwise </p></li>
 </ul>
 </dd>
 </dl>
